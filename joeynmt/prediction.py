@@ -92,15 +92,17 @@ def validate_on_data(model: Model, data: Dataset,
     # disable dropout
 
     # reinforcement learnin parameters
-    method = config["training"]["reinforcement_learning"]["method"]
-    samples = config["training"]["reinforcement_learning"]["hyperparameters"]["samples"]
-    alpha = config["training"]["reinforcement_learning"]["hyperparameters"]["alpha"]
-    reinforcement_learning = config["training"]["reinforcement_learning"]["use_reinforcement_learning"]
-    temperature = config["training"]["reinforcement_learning"]["hyperparameters"]["temperature"]
-    add_gold = config["training"]["reinforcement_learning"]["hyperparameters"].get("add_gold", False)
-    log_probabilities = config["training"]["reinforcement_learning"].get("log_probabilities", False)
-    pickle_logs = config["training"]["reinforcement_learning"].get("pickle_logs", False)
-    topk = config["training"]["reinforcement_learning"].get("topk", 20)
+    reinforcement_learning = config["training"].get("reinforcement_learning", {}).get("use_reinforcement_learning", False)
+    
+    if reinforcement_learning:
+        method = config["training"]["reinforcement_learning"]["method"]
+        samples = config["training"]["reinforcement_learning"]["hyperparameters"]["samples"]
+        alpha = config["training"]["reinforcement_learning"]["hyperparameters"]["alpha"]
+        temperature = config["training"]["reinforcement_learning"]["hyperparameters"]["temperature"]
+        add_gold = config["training"]["reinforcement_learning"]["hyperparameters"].get("add_gold", False)
+        log_probabilities = config["training"]["reinforcement_learning"].get("log_probabilities", False)
+        pickle_logs = config["training"]["reinforcement_learning"].get("pickle_logs", False)
+        topk = config["training"]["reinforcement_learning"].get("topk", 20)
 
     model.eval()
     # don't track gradients during validation

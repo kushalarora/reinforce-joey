@@ -8,3 +8,5 @@ models
 reverse_model
 .vscode/
 scripts/*
+orig/
+test/

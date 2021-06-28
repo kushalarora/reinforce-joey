@@ -3,6 +3,8 @@
 # Adapted from https://github.com/facebookresearch/MIXER/blob/master/prepareData.sh
 # Adapted from https://github.com/pytorch/fairseq/blob/master/examples/translation/prepare-iwslt14.sh
 
+set -xu
+
 git clone https://github.com/moses-smt/mosesdecoder.git
 
 MOSES=`pwd`/mosesdecoder
@@ -11,7 +13,7 @@ SCRIPTS=${MOSES}/scripts
 TOKENIZER=${SCRIPTS}/tokenizer/tokenizer.perl
 LC=${SCRIPTS}/tokenizer/lowercase.perl
 CLEAN=${SCRIPTS}/training/clean-corpus-n.perl
-URL="https://wit3.fbk.eu/archive/2014-01/texts/de/en/de-en.tgz"
+URL="http://dl.fbaipublicfiles.com/fairseq/data/iwslt14/de-en.tgz"
 GZ=de-en.tgz
 
 merge_ops=32000

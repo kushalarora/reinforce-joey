@@ -73,17 +73,18 @@ class TrainManager:
             log_dir=self.model_dir + "/tensorboard/")
 
         # reinforcement learning parameters
-        self.reinforcement_learning = train_config["reinforcement_learning"].get("use_reinforcement_learning", False)
-        self.temperature = train_config["reinforcement_learning"]["hyperparameters"].get("temperature", 1)
-        self.baseline = train_config["reinforcement_learning"]["hyperparameters"].get("baseline", False)
-        self.reward = train_config["reinforcement_learning"]["hyperparameters"].get("reward", 'bleu')
-        self.method = train_config["reinforcement_learning"].get("method", 'reinforce')
-        self.samples = train_config["reinforcement_learning"]["hyperparameters"].get("samples", 5)
-        self.alpha = train_config["reinforcement_learning"]["hyperparameters"].get("alpha", 0.005)
-        self.add_gold = train_config["reinforcement_learning"]["hyperparameters"].get("add_gold", False)
-        self.log_probabilities = train_config["reinforcement_learning"].get("log_probabilities", False)
-        self.pickle_logs = train_config["reinforcement_learning"].get("pickle_logs", False)
-        self.topk = train_config["reinforcement_learning"].get("topk", 20)
+        self.reinforcement_learning = train_config.get("reinforcement_learning", {}).get("use_reinforcement_learning", False)
+
+        self.temperature = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("temperature", 1)
+        self.baseline = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("baseline", False)
+        self.reward = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("reward", 'bleu')
+        self.method = train_config.get("reinforcement_learning", {}).get("method", 'reinforce')
+        self.samples = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("samples", 5)
+        self.alpha = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("alpha", 0.005)
+        self.add_gold = train_config.get("reinforcement_learning", {}).get("hyperparameters", {}).get("add_gold", False)
+        self.log_probabilities = train_config.get("reinforcement_learning", {}).get("log_probabilities", False)
+        self.pickle_logs = train_config.get("reinforcement_learning", {}).get("pickle_logs", False)
+        self.topk = train_config.get("reinforcement_learning", {}).get("topk", 20)
 
         if self.log_probabilities:
             self.entropy_logger = make_retro_logger("{}/entropy.log".format(self.model_dir), "entropy_logger")
@@ -857,7 +858,7 @@ def train(cfg_file: str) -> None:
     train_data, dev_data, test_data, src_vocab, trg_vocab = load_data(
         data_cfg=cfg["data"])
 
-    rl_method = cfg["training"]["reinforcement_learning"].get("method", False)
+    rl_method = cfg["training"].get("reinforcement_learning", {}).get("method", False)
     # build an encoder-decoder model
     model = build_model(cfg["model"], src_vocab=src_vocab, trg_vocab=trg_vocab)
     if rl_method=="a2c": 
